@@ -49,7 +49,7 @@ When introducing agency into automation—whether a human, an AI agent, or a sch
 }
 ```
 
-### Layer 1 - Action Declaration
+### Layer 1 - Action Declaration 
 Before execution, the system must declare its intent. This enables predictability (the workflow's path is known in advance), observability (both declared and executed states are logged), and forms the basis for controllability, accountability, and recoverability.
 ```json
 {
