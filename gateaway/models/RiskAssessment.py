@@ -1,6 +1,6 @@
 from typing import Dict, List, Literal, Any
 from pydantic import BaseModel, Field
-from gateaway.models.RiskFactor import RiskFactor
+from .RiskFactor import RiskFactor
 
 
 class SimilarActions(BaseModel):

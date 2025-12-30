@@ -1,6 +1,6 @@
 import httpx
 from datetime import datetime
-from gateaway.models import ActionDeclaration, ApprovalDecision, ExecutionResult
+from models import ActionDeclaration, ApprovalDecision, ExecutionResult
 
 class ExecutionEngine:
     """

@@ -1,5 +1,5 @@
 from datetime import datetime
-from gateaway.models import ActionDeclaration, ExecutionResult, VerificationResult
+from models import ActionDeclaration, ExecutionResult, VerificationResult
 
 class VerificationEngine:
     """

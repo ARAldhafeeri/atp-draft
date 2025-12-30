@@ -1,14 +1,16 @@
 
 from ast import Dict
-from gateaway.models import RiskAssessment
+from models import RiskAssessment
 
 import os
 import httpx
 import json
 from datetime import datetime
-from gateaway.models.ActionDeclaration import ActionDeclaration
-from gateaway.components.ATPStore import store
-from gateaway.models.RiskFactor import RiskFactor
+from models import (
+    ActionDeclaration, 
+    RiskFactor
+)
+from components.ATPStore import store
 
 class OpenAIRiskAssessor:
     """

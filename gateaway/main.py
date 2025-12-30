@@ -4,12 +4,19 @@ from typing import  Optional
 from datetime import datetime
 import uuid
 
-from .models import ActionDeclaration, ActionInitiator, ActionTarget
-from .components.ATPStore import store 
-from .components.OpenAIRiskAssestor import risk_assessor
-from .components.ExecutionEngine import ExecutionEngine
-from .models.ApprovalDecision import ApprovalDecision
-from .components.VerficationEngine import verification_engine
+from models import (
+    ApprovalDecision, 
+    ActionDeclaration, 
+    ActionInitiator, 
+    ActionTarget
+)
+
+from components import (
+    store, 
+    risk_assessor,
+    ExecutionEngine,
+    verification_engine
+) 
 
 app = FastAPI(title="ATP Gateway")
 

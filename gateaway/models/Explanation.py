@@ -1,5 +1,5 @@
 from typing import  List, Optional
-from gateaway.models.RiskAssessment import RiskAssessment
+from .RiskAssessment import RiskAssessment
 from pydantic import BaseModel
 
 class Explanation(BaseModel):

@@ -17,3 +17,11 @@ class ApprovalDecision(BaseModel):
     timestamp: str
     reason: str
     modifications: Optional[Dict[str, Any]] = None
+
+
+class VerificationResult(BaseModel):
+    action_id: str
+    timestamp: str
+    overall_status: Literal["verified", "anomaly_detected", "verification_failed"]
+    checks: List[Dict]
+    confidence: float

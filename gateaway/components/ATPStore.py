@@ -1,10 +1,13 @@
 from uuid import uuid4
 from typing import Dict, List
-from gateaway.models.ActionDeclaration import ActionDeclaration
-from gateaway.models.RiskAssessment import RiskAssessment
-from gateaway.models.ApprovalDecision import ApprovalDecision
-from gateaway.models.ExecutionResult import ExecutionResult
-from gateaway.models.VerificationResult import VerificationResult
+from models import (
+    ActionDeclaration,
+    RiskAssessment,
+    ExecutionResult,
+    VerificationResult,
+    ApprovalDecision,
+    ExecutionResult
+)
 from datetime import datetime
 
 class ATPStore:
