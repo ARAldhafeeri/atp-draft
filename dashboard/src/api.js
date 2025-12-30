@@ -13,7 +13,7 @@ const apiServiceReal = {
   },
 
   async getActions() {
-    const response = await fetch(`${API_BASE_URL}/actions/declare`, {
+    const response = await fetch(`${API_BASE_URL}/actions`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
