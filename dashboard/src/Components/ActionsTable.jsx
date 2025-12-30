@@ -171,14 +171,13 @@ const ActionsTable = ({ actions, onViewDetails, onApprove, onReject, onExecute }
         }
         
         if (record.approval_request) {
-          const approvers = record.approval_request.approvers?.map(a => a.split(':')[1]).join(', ') || '';
           return (
             <div>
               <div style={{ fontSize: '12px', color: '#faad14' }}>
                 ⏳ {record.approval_request.priority} priority
               </div>
               <div style={{ fontSize: '11px', color: '#666' }}>
-                Needs: {approvers}
+                Needs: {record.approval_request.approvers.join(', ')}
               </div>
             </div>
           );

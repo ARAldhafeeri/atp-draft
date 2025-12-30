@@ -8,8 +8,7 @@ from models import (
     ApprovalDecision, 
     ActionDeclaration, 
     ActionInitiator, 
-    ActionTarget,
-    ActionPayload,
+   ActionDeclaration,
     ActionStatus,
 )
 
@@ -17,8 +16,8 @@ from components import (
     store, 
     risk_assessor,
     ExecutionEngine,
-    verification_engine
-) 
+    verification_engine,
+    approval_engine) 
 
 app = FastAPI(title="ATP Gateway")
 
@@ -62,12 +61,26 @@ async def declare_action(
         payload=req.payload,
         context=req.context
     )
-    
-    # Store action
-    store.store_action(action)
+
+
+  
     
     # Assess risk using OpenAI
     risk = await risk_assessor.assess_risk(action)
+
+    # Determine approval request intelligently
+    action.approval_request = approval_engine.get_approval_request(
+        risk.risk_level,
+        action.action_id,
+        risk.risk_score
+    )
+
+    
+
+    # Store action
+    store.store_action(action)
+
+    # Store risk assessment
     store.store_risk_assessment(risk)
     
     # Get explanation
@@ -83,7 +96,7 @@ async def declare_action(
 @app.post("/atp/v1/actions/{action_id}/approve")
 async def approve_action(action_id: str, approver: str, reason: str):
     """
-    Manual approval endpoint
+    Approval life cycle endpoint for actions 
     Called by on-call engineer or automated approval system
     """
     

@@ -51,6 +51,9 @@ class ActionDeclaration(BaseModel):
     context: Dict
     # intial status of the action
     status: str = ActionStatus.DECLARED
+    # Optional fields to be filled later
+    approval_request: Optional[ApprovalRequest] = None
+
 
 class CompleteAction(BaseModel):
     action_id: str
@@ -64,7 +67,7 @@ class CompleteAction(BaseModel):
     risk_assessment: Optional[RiskAssessment] = None
     approval_request: Optional[ApprovalRequest] = None
     approval_decision: Optional[ApprovalDecision] = None
-    execution_result: Optional[ActionStatus.EXECUTED] = None
+    execution_result: Optional[ActionStatus] = None
     verification_result: Optional[VerificationResult] = None
     rollback: Optional[RollbackAction] = None
     status: ActionStatus

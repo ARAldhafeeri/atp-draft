@@ -217,4 +217,4 @@ __marimo__/
 
 
 # sqlite 
-./atp_store.db
+./gateaway/atp_store.db
