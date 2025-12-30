@@ -4,12 +4,12 @@ from typing import  Optional
 from datetime import datetime
 import uuid
 
-from gateaway.models import ActionDeclaration, ActionInitiator, ActionTarget
-from gateaway.components.ATPStore import store 
-from gateaway.components.OpenAIRiskAssestor import risk_assessor
-from gateaway.components.ExecutionEngine import ExecutionEngine
-from gateaway.models.ApprovalDecision import ApprovalDecision
-from gateaway.components.VerficationEngine import verification_engine
+from .models import ActionDeclaration, ActionInitiator, ActionTarget
+from .components.ATPStore import store 
+from .components.OpenAIRiskAssestor import risk_assessor
+from .components.ExecutionEngine import ExecutionEngine
+from .models.ApprovalDecision import ApprovalDecision
+from .components.VerficationEngine import verification_engine
 
 app = FastAPI(title="ATP Gateway")
 
@@ -188,7 +188,7 @@ async def explain_action(action_id: str):
         "explanation": explanation
     }
 
-@app.get("/health")
+@app.get("/atp/v1/health")
 async def health_check():
     return {
         "status": "healthy",
