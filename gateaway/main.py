@@ -8,7 +8,8 @@ from models import (
     ApprovalDecision, 
     ActionDeclaration, 
     ActionInitiator, 
-    ActionTarget
+    ActionTarget,
+    ActionPayload
 )
 
 from components import (
@@ -32,11 +33,7 @@ app.add_middleware(
 
 @app.post("/atp/v1/actions/declare")
 async def declare_action(
-    service: str,
-    namespace: str,
-    status: str,
-    error_rate: Optional[str] = None,
-    recent_deployment: bool = False
+  req: ActionDeclaration
 ):
     """
     Webhook endpoint for Uptime Kuma
@@ -59,24 +56,9 @@ async def declare_action(
         ),
         timestamp=datetime.utcnow().isoformat(),
         action_type="service.remediation",
-        target=ActionTarget(
-            system="argocd",
-            resource="application",
-            operation="rollback"
-        ),
-        payload={
-            "application_name": service,
-            "namespace": namespace,
-            "target_revision": "previous"
-        },
-        context={
-            "service": service,
-            "namespace": namespace,
-            "status": status,
-            "error_rate": error_rate,
-            "recent_deployment": recent_deployment,
-            "triggered_by": "uptime_kuma_alert"
-        }
+        target=req.target,
+        payload=req.payload,
+        context=req.context
     )
     
     # Store action

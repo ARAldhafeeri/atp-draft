@@ -1,5 +1,5 @@
 from typing import Dict, List, Optional, Literal, Any, Union
-from .VerificationResult import ApprovalDecision, ApprovalRequest
+from .VerificationResult import ApprovalDecision, ApprovalRequest, VerificationResult
 from .RiskAssessment import RiskAssessment
 from pydantic import BaseModel, Field
 from datetime import datetime
@@ -13,12 +13,7 @@ class RollbackAction(BaseModel):
     status: Literal["pending", "in_progress", "completed", "failed"]
     compensating_actions: List[str] = Field(default_factory=list)
     
-class VerificationResult(BaseModel):
-    action_id: str
-    timestamp: str
-    overall_status: Literal["verified", "anomaly_detected", "verification_failed"]
-    checks: List[Dict]
-    confidence: float
+
 
 class ActionTarget(BaseModel):
     system: str  # e.g., "stripe", "salesforce", "hubspot", "aws"
