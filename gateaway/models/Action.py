@@ -49,6 +49,8 @@ class ActionDeclaration(BaseModel):
     target: ActionTarget
     payload: Dict
     context: Dict
+    # intial status of the action
+    status: str = ActionStatus.DECLARED
 
 class CompleteAction(BaseModel):
     action_id: str

@@ -45,4 +45,5 @@ class ActionStatus(str, Enum):
     EXECUTING = "executing"
     EXECUTED = "executed"
     VERIFIED = "verified"
+    DECLARED = "declared"
     ROLLED_BACK = "rolled_back"

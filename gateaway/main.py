@@ -9,7 +9,8 @@ from models import (
     ActionDeclaration, 
     ActionInitiator, 
     ActionTarget,
-    ActionPayload
+    ActionPayload,
+    ActionStatus,
 )
 
 from components import (
@@ -57,6 +58,7 @@ async def declare_action(
         timestamp=datetime.utcnow().isoformat(),
         action_type="service.remediation",
         target=req.target,
+        status=ActionStatus.DECLARED,
         payload=req.payload,
         context=req.context
     )

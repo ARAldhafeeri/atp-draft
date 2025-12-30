@@ -6,6 +6,8 @@ import {
   PlayCircleOutlined,
   CheckCircleFilled,
   ExclamationCircleOutlined,
+  RollbackOutlined,
+  FileTextOutlined,
   SyncOutlined,
   EyeOutlined
 } from '@ant-design/icons';
@@ -15,6 +17,8 @@ const { Text } = Typography;
 
 const getStatusConfig = (status) => {
   switch (status) {
+    case 'pending':
+      return { icon: <ClockCircleOutlined />, color: '#faad14', text: 'Pending' };
     case 'pending_approval':
       return { icon: <ClockCircleOutlined />, color: '#faad14', text: 'Pending Approval' };
     case 'approved':
@@ -27,11 +31,14 @@ const getStatusConfig = (status) => {
       return { icon: <CloseCircleOutlined />, color: '#ff4d4f', text: 'Rejected' };
     case 'executing':
       return { icon: <SyncOutlined spin />, color: '#1890ff', text: 'Executing' };
+    case 'declared':
+      return { icon: <FileTextOutlined />, color: '#13c2c2', text: 'Declared' };
+    case 'rolled_back':
+      return { icon: <RollbackOutlined />, color: '#ff7a45', text: 'Rolled Back' };
     default:
       return { icon: <ExclamationCircleOutlined />, color: '#d9d9d9', text: status };
   }
 };
-
 const getRiskColor = (riskLevel) => {
   switch (riskLevel) {
     case 'low': return 'green';
