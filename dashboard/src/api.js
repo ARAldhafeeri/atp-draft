@@ -12,8 +12,17 @@ const apiServiceReal = {
     return response.json();
   },
 
+  async getActions() {
+    const response = await fetch(`${API_BASE_URL}/actions/declare`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return response.json();
+  },
+
+
   async declareAction(data) {
-    const response = await fetch(`${API_BASE_URL}/atp/v1/actions/declare`, {
+    const response = await fetch(`${API_BASE_URL}/actions/declare`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -22,7 +31,7 @@ const apiServiceReal = {
   },
 
   async approveAction(actionId, approver, reason) {
-    const response = await fetch(`${API_BASE_URL}/atp/v1/actions/${actionId}/approve`, {
+    const response = await fetch(`${API_BASE_URL}/actions/${actionId}/approve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ approver, reason }),
@@ -31,7 +40,7 @@ const apiServiceReal = {
   },
 
   async executeAction(actionId, webhookUrl) {
-    const response = await fetch(`${API_BASE_URL}/atp/v1/actions/${actionId}/execute`, {
+    const response = await fetch(`${API_BASE_URL}/actions/${actionId}/execute`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ n8n_webhook_url: webhookUrl }),
@@ -40,12 +49,12 @@ const apiServiceReal = {
   },
 
   async getAuditTrail(actionId) {
-    const response = await fetch(`${API_BASE_URL}/atp/v1/actions/${actionId}/audit-trail`);
+    const response = await fetch(`${API_BASE_URL}/actions/${actionId}/audit-trail`);
     return response.json();
   },
 
   async getExplanation(actionId) {
-    const response = await fetch(`${API_BASE_URL}/atp/v1/actions/${actionId}/explain`);
+    const response = await fetch(`${API_BASE_URL}/actions/${actionId}/explain`);
     return response.json();
   },
 };

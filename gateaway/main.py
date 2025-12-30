@@ -177,7 +177,16 @@ async def explain_action(action_id: str):
         "explanation": explanation
     }
 
+@app.get("/atp/v1/actions")
+async def get_actions():
+    """
+    Get list of all declared actions
+    """
+    actions = [action for action in store.actions.values()]
+    return actions 
+
 @app.get("/atp/v1/health")
+
 async def health_check():
     return {
         "status": "healthy",
