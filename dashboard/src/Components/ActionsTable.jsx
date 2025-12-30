@@ -192,10 +192,10 @@ const ActionsTable = ({ actions, onViewDetails, onApprove, onReject, onExecute }
       width: 200,
       fixed: 'right',
       render: (_, record) => {
-        const canApprove = record.status === 'pending_approval' && record.approval_request;
+        const canApprove = record.status === 'declared' && record.approval_request;
         const canExecute = record.status === 'approved' || 
                          (record.status === 'executing' && record.execution_result?.status === 'partial');
-        const canReject = record.status === 'pending_approval';
+        const canReject = record.status === 'declared';
         
         return (
           <Space>

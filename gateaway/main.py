@@ -10,6 +10,7 @@ from models import (
     ActionInitiator, 
    ActionDeclaration,
     ActionStatus,
+    ManualApprovalRequest
 )
 
 from components import (
@@ -94,28 +95,28 @@ async def declare_action(
     }
 
 @app.post("/atp/v1/actions/{action_id}/approve")
-async def approve_action(action_id: str, approver: str, reason: str):
+async def approve_action(req: ManualApprovalRequest):
     """
     Approval life cycle endpoint for actions 
     Called by on-call engineer or automated approval system
     """
     
-    action = store.actions.get(action_id)
+    action = store.actions.get(req.action_id)
     if not action:
         raise HTTPException(status_code=404, detail="Action not found")
     
     approval = ApprovalDecision(
-        action_id=action_id,
+        action_id=req.action_id,
         decision="approved",
-        approver=approver,
+        approver=req.approver,
         timestamp=datetime.utcnow().isoformat(),
-        reason=reason
+        reason=req.reason
     )
     
     store.store_approval(approval)
     
     return {
-        "action_id": action_id,
+        "action_id": req.action_id,
         "status": "approved",
         "message": "Action approved and queued for execution"
     }

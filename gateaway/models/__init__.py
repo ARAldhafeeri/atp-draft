@@ -5,7 +5,7 @@ from .Action import (
      ActionPayload, 
      ActionDeclaration,
      VerificationResult,
-     ActionTarget
+     ActionTarget,
 )
 
 from .ApprovalDecision import ApprovalDecision, ApprovalRequest, SideEffect, ExecutionResult
@@ -20,3 +20,4 @@ from .ExecutionResult import ApprovalDecision, ApprovalRequest
 from .RiskFactor import RiskFactor
 from .VerificationResult import VerificationResult 
 from .Action import RollbackAction
+from .ApprovalRequest import ManualApprovalRequest

@@ -34,7 +34,7 @@ const apiServiceReal = {
     const response = await fetch(`${API_BASE_URL}/actions/${actionId}/approve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ approver, reason }),
+      body: JSON.stringify({ approver, reason, action_id: actionId }),
     });
     return response.json();
   },

@@ -210,6 +210,7 @@ class ATPStore:
         
         self.audit_log(assessment.action_id, "risk_assessed", assessment.dict())
     
+
     def store_approval(self, approval: ApprovalDecision):
         """
         Store an approval decision for an action. Create an audit log entry.
@@ -227,7 +228,53 @@ class ATPStore:
             conn.close()
         
         self.audit_log(approval.action_id, "approval_received", approval.dict())
-    
+        
+        # Update action status to "approved" if approval status is "approved"
+        if approval.decision == "approved" and approval.action_id in self.actions:
+            self.update_action_status(approval.action_id, "approved")
+
+    def update_action_status(self, action_id: str, status: str):
+        """
+        Update the status of an action in the actions store.
+        
+        Args:
+            action_id: The ID of the action to update
+            status: The new status (e.g., "approved", "pending", "rejected")
+        """
+        if action_id in self.actions:
+            # Update the status in the action dictionary
+            self.actions[action_id]["status"] = status
+            
+            # Also update in database if using persistence
+            if self.use_db:
+                conn = sqlite3.connect(self.db_path)
+                cursor = conn.cursor()
+                
+                # Get current action data
+                cursor.execute("SELECT data FROM actions WHERE action_id = ?", (action_id,))
+                result = cursor.fetchone()
+                
+                if result:
+                    # Parse existing data, update status, and save back
+                    action_data = json.loads(result[0])
+                    action_data["status"] = status
+                    
+                    cursor.execute(
+                        "UPDATE actions SET data = ? WHERE action_id = ?",
+                        (json.dumps(action_data), action_id)
+                    )
+                    conn.commit()
+                
+                conn.close()
+            
+            # Create audit log for status change
+            self.audit_log(action_id, "status_updated", {
+                "new_status": status,
+                "previous_status": self.actions[action_id].get("status", "unknown"),
+                "timestamp": datetime.utcnow().isoformat()
+            })
+        else:
+            raise ValueError(f"Action with ID {action_id} not found in store")
     def store_execution(self, execution: ExecutionResult):
         """
         Store an execution result for an action. Create an audit log entry.

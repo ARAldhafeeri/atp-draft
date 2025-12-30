@@ -17,3 +17,9 @@ class ApprovalDecision(BaseModel):
     timestamp: str
     reason: str
     modifications: Optional[Dict[str, Any]] = None
+
+
+class ManualApprovalRequest(BaseModel):
+    action_id: str
+    approver: str 
+    reason: str
