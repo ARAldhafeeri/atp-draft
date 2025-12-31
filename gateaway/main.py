@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import  Optional
 from datetime import datetime
 import uuid
 
@@ -202,7 +201,6 @@ async def get_actions():
     return actions 
 
 @app.get("/atp/v1/health")
-
 async def health_check():
     return {
         "status": "healthy",

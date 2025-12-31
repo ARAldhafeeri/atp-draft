@@ -19,5 +19,12 @@ docker run -it --rm \
   -e N8N_BASIC_AUTH_PASSWORD=admin \
   n8nio/n8n
 
+# Terminal 4: dev k8s cluster KinD, k3s, microk8s ....
+
+# Infra Setup
+# 1. setup argocd 
+# 2. create simple argocd application 
+# 3. add application endpiont to uptime kuma
+# 4. add webhook notification to the application
 
 ```
