@@ -9,7 +9,7 @@ from .Action import (
      ActionExecutePayload
 )
 
-from .ApprovalDecision import ApprovalDecision, ApprovalRequest, SideEffect, ExecutionResultModel
+from .ApprovalDecision import ApprovalDecision, ApprovalRequestModel, SideEffect, ExecutionResultModel
 from .RiskAssessment import RiskAssessment, SimilarActions
 from .VerificationResult import ApprovalRequest, ApprovalDecision
 from .enums import ActionStatus

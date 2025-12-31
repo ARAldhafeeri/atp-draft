@@ -1,4 +1,4 @@
-from models import ApprovalRequest
+from models import ApprovalRequestModel
 from datetime import datetime
 
 class ApprovalEngine:
@@ -14,13 +14,13 @@ class ApprovalEngine:
             risk_level: str, 
             action_id: str, 
             risk_score: float
-        ) -> ApprovalRequest:
+        ) -> ApprovalRequestModel:
         """
         Generate an approval request based on risk level Simple implementation:
         """
         print("Generating approval request for risk level:", risk_level, action_id, risk_score)
         if risk_level == "low":
-            return ApprovalRequest(
+            return ApprovalRequestModel(
                 action_id=action_id,
                 decision="auto_approve",
                 timestamp=datetime.utcnow().isoformat(),
@@ -32,7 +32,7 @@ class ApprovalEngine:
                 approvers=[ "system" ]
             )
         elif risk_level == "medium":
-            return ApprovalRequest(
+            return ApprovalRequestModel(
                 action_id=action_id,
                 decision="human_required",
                 approvals=["on_call_engineer"],
@@ -44,7 +44,7 @@ class ApprovalEngine:
                 risk_score=risk_score,
             )
         elif risk_level == "high":
-            return ApprovalRequest(
+            return ApprovalRequestModel(
                 action_id=action_id,
                 decision="human_required",
                 approvers=["cto_team"],
@@ -56,7 +56,7 @@ class ApprovalEngine:
                                     risk_score=risk_score,
             )
         else: 
-            return ApprovalRequest(
+            return ApprovalRequestModel(
                 action_id=action_id,
                 decision="human_required",
                 approvers=["security_team"],

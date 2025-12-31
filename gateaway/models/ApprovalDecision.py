@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Literal, Any
 from pydantic import BaseModel, Field
 
-class ApprovalRequest(BaseModel):
+class ApprovalRequestModel(BaseModel):
     action_id: str
     risk_score: float
     approval_type: Literal["auto_approve", "human_required"]
