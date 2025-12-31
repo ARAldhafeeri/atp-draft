@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Tag, Typography, Button, Modal, Timeline, Descriptions, Space, message, Tabs } from 'antd';
-import { apiService } from "../api";
+import { apiService, shouldUseMock } from "../api";
 import { getStatusIcon } from "../utils";
+import ActionAuditViewer from "./ActionAuditViewer";
 import RiskAssessmentCard from './RiskAssessmentCard';
 
 const { Text, Paragraph } = Typography;
@@ -10,7 +11,30 @@ const ActionDetailsModal = ({ visible, action, onClose }) => {
   const [auditTrail, setAuditTrail] = useState(null);
   const [explanation, setExplanation] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const AuditComponent = () => shouldUseMock ? <>
+          {auditTrail?.audit_trail ? (
+            <Timeline>
+              {auditTrail.audit_trail.map((log, idx) => (
+                <Timeline.Item key={idx} color="blue">
+                  <Space direction="vertical" size={0}>
+                    <Text strong>{log.event.replace(/_/g, ' ').toUpperCase()}</Text>
+                    <Text type="secondary">Actor: {log.actor}</Text>
+                    <Text type="secondary">
+                      {new Date(log.timestamp).toLocaleString()}
+                    </Text>
+                    {log.details && (
+                      <Text type="secondary" style={{ fontSize: '12px' }}>
+                        {JSON.stringify(log.details, null, 2)}
+                      </Text>
+                    )}
+                  </Space>
+                </Timeline.Item>
+              ))}
+            </Timeline>
+          ) : (
+            <Text type="secondary">No audit trail available</Text>
+          )}
+  </> :               <ActionAuditViewer auditTrail={auditTrail?.audit_trail} actionData={action} />;
   useEffect(() => {
     if (visible && action) {
       loadDetails();
@@ -282,30 +306,14 @@ const ActionDetailsModal = ({ visible, action, onClose }) => {
       key: 'audit',
       label: 'Audit Trail',
       children: (
-        <Card loading={loading}>
+        <>
           {auditTrail?.audit_trail ? (
-            <Timeline>
-              {auditTrail.audit_trail.map((log, idx) => (
-                <Timeline.Item key={idx} color="blue">
-                  <Space direction="vertical" size={0}>
-                    <Text strong>{log.event.replace(/_/g, ' ').toUpperCase()}</Text>
-                    <Text type="secondary">Actor: {log.actor}</Text>
-                    <Text type="secondary">
-                      {new Date(log.timestamp).toLocaleString()}
-                    </Text>
-                    {log.details && (
-                      <Text type="secondary" style={{ fontSize: '12px' }}>
-                        {JSON.stringify(log.details, null, 2)}
-                      </Text>
-                    )}
-                  </Space>
-                </Timeline.Item>
-              ))}
-            </Timeline>
+           <AuditComponent />
           ) : (
             <Text type="secondary">No audit trail available</Text>
           )}
-        </Card>
+        </>
+      
       ),
     },
   ];

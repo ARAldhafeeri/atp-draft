@@ -7,9 +7,9 @@ from models import (
     ApprovalDecision, 
     ActionDeclaration, 
     ActionInitiator, 
-   ActionDeclaration,
     ActionStatus,
-    ManualApprovalRequest
+    ManualApprovalRequest,
+    ActionExecutePayload
 )
 
 from components import (
@@ -93,7 +93,7 @@ async def declare_action(
         "next_step": "approval_required" if risk.recommendation == "human_review" else "auto_executing"
     }
 
-@app.post("/atp/v1/actions/{action_id}/approve")
+@app.post("/atp/v1/actions/approve")
 async def approve_action(req: ManualApprovalRequest):
     """
     Approval life cycle endpoint for actions 
@@ -120,14 +120,15 @@ async def approve_action(req: ManualApprovalRequest):
         "message": "Action approved and queued for execution"
     }
 
-@app.post("/atp/v1/actions/{action_id}/execute")
-async def execute_action(action_id: str, n8n_webhook_url: str):
+
+@app.post("/atp/v1/actions/execute")
+async def execute_action(req: ActionExecutePayload):
     """
     Execute the approved action through n8n
     """
     
-    action_dict = store.actions.get(action_id)
-    approval_dict = store.approvals.get(action_id)
+    action_dict = store.actions.get(req.action_id)
+    approval_dict = store.approvals.get(req.action_id)
     
     if not action_dict:
         raise HTTPException(status_code=404, detail="Action not found")
@@ -139,16 +140,20 @@ async def execute_action(action_id: str, n8n_webhook_url: str):
     approval = approval_dict
     
     # Execute through n8n
-    executor = ExecutionEngine(n8n_webhook_url)
+    executor = ExecutionEngine(req.n8n_webhook_url)
     execution = await executor.execute(action, approval)
-    store.store_execution(execution)
+
+    try : 
+        store.store_execution(execution)
+    except Exception as e:
+        store.update_action_status(req.action_id, ActionStatus.EXECUTED)
     
     # Verify execution
     verification = await verification_engine.verify(action, execution)
     store.store_verification(verification)
     
     return {
-        "action_id": action_id,
+        "action_id": req.action_id,
         "execution": execution.dict(),
         "verification": verification.dict()
     }

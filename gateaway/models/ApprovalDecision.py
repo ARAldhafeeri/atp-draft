@@ -26,7 +26,7 @@ class SideEffect(BaseModel):
     timestamp: Optional[str] = None
 
 
-class ExecutionResult(BaseModel):
+class ExecutionResultModel(BaseModel):
     action_id: str
     started_at: str
     completed_at: Optional[str] = None

@@ -74,3 +74,8 @@ class CompleteAction(BaseModel):
     
     class Config:
         use_enum_values = True
+
+
+class ActionExecutePayload(BaseModel):
+    action_id: str
+    n8n_webhook_url: str

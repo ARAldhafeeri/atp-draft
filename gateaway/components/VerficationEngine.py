@@ -1,12 +1,12 @@
 from datetime import datetime
-from models import ActionDeclaration, ExecutionResult, VerificationResult
+from models import ActionDeclaration, ExecutionResultModel, VerificationResult
 
 class VerificationEngine:
     """
     Verify that the action achieved its intended outcome
     """
     
-    async def verify(self, action: ActionDeclaration, execution: ExecutionResult) -> VerificationResult:
+    async def verify(self, action: ActionDeclaration, execution: ExecutionResultModel) -> VerificationResult:
         """Verify action outcome"""
         
         checks = []

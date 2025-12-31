@@ -2,7 +2,7 @@ import { mockApiService } from "./mock-api";
 
 // API Configuration
 const API_BASE_URL = import.meta.env.VITE_API_URL 
-const shouldUseMock = import.meta.env.VITE_NODE_ENV === 'development' 
+export const shouldUseMock = import.meta.env.VITE_NODE_ENV === 'development' 
   && import.meta.env.VITE_USE_MOCK === 'true';
 
   console.log("should use mock", shouldUseMock, import.meta.env.VITE_NODE_ENV , import.meta.env.VITE_USE_MOCK);
@@ -31,7 +31,7 @@ const apiServiceReal = {
   },
 
   async approveAction(actionId, approver, reason) {
-    const response = await fetch(`${API_BASE_URL}/actions/${actionId}/approve`, {
+    const response = await fetch(`${API_BASE_URL}/actions/approve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ approver, reason, action_id: actionId }),
@@ -40,10 +40,10 @@ const apiServiceReal = {
   },
 
   async executeAction(actionId, webhookUrl) {
-    const response = await fetch(`${API_BASE_URL}/actions/${actionId}/execute`, {
+    const response = await fetch(`${API_BASE_URL}/actions/execute`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ n8n_webhook_url: webhookUrl }),
+      body: JSON.stringify({ n8n_webhook_url: webhookUrl, action_id: actionId }),
     });
     return response.json();
   },

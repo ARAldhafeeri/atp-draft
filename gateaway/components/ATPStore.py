@@ -3,10 +3,10 @@ from typing import Dict, List, Optional
 from models import (
     ActionDeclaration,
     RiskAssessment,
-    ExecutionResult,
     VerificationResult,
     ApprovalDecision,
-    ExecutionResult
+    ExecutionResultModel,
+    ActionStatus
 )
 from datetime import datetime
 import sqlite3
@@ -34,7 +34,7 @@ class ATPStore:
         self.actions: Dict[str, Dict] = {}
         self.risk_assessments: Dict[str, RiskAssessment] = {}
         self.approvals: Dict[str, ApprovalDecision] = {}
-        self.executions: Dict[str, ExecutionResult] = {}
+        self.executions: Dict[str, ExecutionResultModel] = {}
         self.verifications: Dict[str, VerificationResult] = {}
         self.audit_logs: Dict[str, List[Dict]] = {}
         self.action_history: List[Dict] = []
@@ -145,7 +145,7 @@ class ATPStore:
         # Load executions
         cursor.execute("SELECT action_id, data FROM executions")
         for action_id, data in cursor.fetchall():
-            self.executions[action_id] = ExecutionResult(**json.loads(data))
+            self.executions[action_id] = ExecutionResultModel(**json.loads(data))
         
         # Load verifications
         cursor.execute("SELECT action_id, data FROM verifications")
@@ -230,8 +230,8 @@ class ATPStore:
         self.audit_log(approval.action_id, "approval_received", approval.dict())
         
         # Update action status to "approved" if approval status is "approved"
-        if approval.decision == "approved" and approval.action_id in self.actions:
-            self.update_action_status(approval.action_id, "approved")
+        if approval.decision == ActionStatus.APPROVED and approval.action_id in self.actions:
+            self.update_action_status(approval.action_id, ActionStatus.APPROVED)
 
     def update_action_status(self, action_id: str, status: str):
         """
@@ -275,7 +275,7 @@ class ATPStore:
             })
         else:
             raise ValueError(f"Action with ID {action_id} not found in store")
-    def store_execution(self, execution: ExecutionResult):
+    def store_execution(self, execution: ExecutionResultModel):
         """
         Store an execution result for an action. Create an audit log entry.
         """
@@ -290,9 +290,13 @@ class ATPStore:
             )
             conn.commit()
             conn.close()
+
+            # Update action status to "executed"
+            self.update_action_status(execution.action_id, ActionStatus.EXECUTED )
         
+        # Create audit log entry
         self.audit_log(execution.action_id, "execution_completed", execution.dict())
-    
+
     def store_verification(self, verification: VerificationResult):
         """
         Store a verification result for an action. Create an audit log entry.

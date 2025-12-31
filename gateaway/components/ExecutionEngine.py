@@ -1,6 +1,6 @@
 import httpx
 from datetime import datetime
-from models import ActionDeclaration, ApprovalDecision, ExecutionResult
+from models import ActionDeclaration, ApprovalDecision, ExecutionResultModel
 
 class ExecutionEngine:
     """
@@ -14,7 +14,7 @@ class ExecutionEngine:
     def __init__(self, n8n_webhook_url: str):
         self.n8n_webhook_url = n8n_webhook_url
     
-    async def execute(self, action: ActionDeclaration, approval: ApprovalDecision) -> ExecutionResult:
+    async def execute(self, action: ActionDeclaration, approval: ApprovalDecision) -> ExecutionResultModel:
         """Execute action through n8n workflow"""
         
         started_at = datetime.utcnow().isoformat()
@@ -39,7 +39,7 @@ class ExecutionEngine:
                 
                 result = response.json()
                 
-                return ExecutionResult(
+                return ExecutionResultModel(
                     action_id=action.action_id,
                     started_at=started_at,
                     completed_at=datetime.utcnow().isoformat(),
@@ -55,7 +55,7 @@ class ExecutionEngine:
                 )
         
         except Exception as e:
-            return ExecutionResult(
+            return ExecutionResultModel(
                 action_id=action.action_id,
                 started_at=started_at,
                 completed_at=datetime.utcnow().isoformat(),

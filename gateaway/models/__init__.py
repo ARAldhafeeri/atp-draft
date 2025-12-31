@@ -6,9 +6,10 @@ from .Action import (
      ActionDeclaration,
      VerificationResult,
      ActionTarget,
+     ActionExecutePayload
 )
 
-from .ApprovalDecision import ApprovalDecision, ApprovalRequest, SideEffect, ExecutionResult
+from .ApprovalDecision import ApprovalDecision, ApprovalRequest, SideEffect, ExecutionResultModel
 from .RiskAssessment import RiskAssessment, SimilarActions
 from .VerificationResult import ApprovalRequest, ApprovalDecision
 from .enums import ActionStatus
