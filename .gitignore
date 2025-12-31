@@ -216,5 +216,6 @@ __marimo__/
 .streamlit/secrets.toml
 
 
-# sqlite 
+# uptime, db 
 atp_store.db
+uptimekuma/
