@@ -53,6 +53,7 @@ class ActionDeclaration(BaseModel):
     status: str = ActionStatus.DECLARED
     # Optional fields to be filled later
     approval_request: Optional[ApprovalRequest] = None
+    risk_assessment: Optional[RiskAssessment] = None
 
 
 class CompleteAction(BaseModel):

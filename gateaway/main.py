@@ -75,7 +75,8 @@ async def declare_action(
         risk.risk_score
     )
 
-    
+    # attach risk assessment to action
+    action.risk_assessment = risk
 
     # Store action
     store.store_action(action)
