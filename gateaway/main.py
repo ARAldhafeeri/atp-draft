@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import uuid
-
+import os
 from models import (
     ApprovalDecision, 
     ActionDeclaration, 
@@ -140,7 +140,9 @@ async def execute_action(req: ActionExecutePayload):
     approval = approval_dict
     
     # Execute through n8n
-    executor = ExecutionEngine(req.n8n_webhook_url)
+    AUTOMATION_ENGINE_LOW_RISK_WEBHOOK = os.getenv("AUTOMATION_ENGINE_LOW_RISK_WEBHOOK", "")
+    AUTOMATION_ENGINE_HIGH_RISK_WEBHOOK = os.getenv("AUTOMATION_ENGINE_HIGH_RISK_WEBHOOK", "")
+    executor = ExecutionEngine(AUTOMATION_ENGINE_HIGH_RISK_WEBHOOK, AUTOMATION_ENGINE_LOW_RISK_WEBHOOK)
     execution = await executor.execute(action, approval)
 
     try : 

@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
   atp-gateway:
-    build: ./gateway
+    build: 
+      dockerfile: ./dashboard/Dockerfile
     container_name: atp-gateway
     ports:
       - "8000:8000"
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - N8N_WEBHOOK_URL=http://n8n:5678/webhook/atp-remediation
+    env_file:
+      - ./gateaway/.env
     volumes:
       - ./gateway:/app
     networks:
@@ -16,8 +16,11 @@ services:
     restart: unless-stopped
 
   atp-dashboard:
-    build: ./dashboard
+    build: 
+      dockerfile: ./dashboard/Dockerfile
     container_name: atp-dashboard
+    env_file:
+    - ./dashboard/.env
     ports:
       - "3000:3000"
     volumes:
@@ -45,6 +48,15 @@ services:
     networks:
       - atp-network
     restart: unless-stopped
+
+  uptime-kuma:
+      image: louislam/uptime-kuma:1
+      container_name: uptime-kuma
+      volumes:
+        - ./uptime-kuma/data:/app/data
+      ports:
+        - "3001:3001"
+      restart: always
 
 networks:
   atp-network:
