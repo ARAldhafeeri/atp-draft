@@ -3,33 +3,17 @@ version: '3.8'
 services:
   atp-gateway:
     build: 
-      dockerfile: ./dashboard/Dockerfile
+      context: ./gateaway
+      dockerfile: ./Dockerfile
     container_name: atp-gateway
     ports:
       - "8000:8000"
     env_file:
       - ./gateaway/.env
     volumes:
-      - ./gateway:/app
+      - ./gateaway:/app
     networks:
       - atp-network
-    restart: unless-stopped
-
-  atp-dashboard:
-    build: 
-      dockerfile: ./dashboard/Dockerfile
-    container_name: atp-dashboard
-    env_file:
-    - ./dashboard/.env
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./dashboard:/app
-      - /app/node_modules
-    networks:
-      - atp-network
-    depends_on:
-      - atp-gateway
     restart: unless-stopped
 
   n8n:
@@ -57,6 +41,8 @@ services:
       ports:
         - "3001:3001"
       restart: always
+      networks:
+        - atp-network
 
 networks:
   atp-network:
