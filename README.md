@@ -1,5 +1,19 @@
 # Intro
 
+This repository introduces the draft specifications of the Automation Trust Protocol, along with a working demo that showcases how the ideas translate into practice.
+
+To dive deeper into the motivation and design:
+
+📖 Blog post: https://dev.to/araldhafeeri/agentic-ai-didnt-break-automation-we-did-heres-the-fix-nol
+
+🎥 Demo video: https://youtu.be/xw8w8CxV__U
+
+If you’re interested in discussing the ideas, contributing, or helping shape the direction:
+
+💬 Discord community: https://discord.gg/NJYKvbbG
+
+The goal is to attract as many people as possible to this initiative, gather feedback, and collaboratively evolve the protocol toward a production-ready standard.
+
 The real value of LLMs lies in **interpretation**—yet most automation efforts misuse them for **execution**. The leap forward isn't more intelligence; it's a trust infrastructure that existing tools lack. Deterministic automation requires:
 
 1. **Predictability:** Known outcomes for given inputs.
@@ -483,4 +497,5 @@ So what is the result ? In my humble opoinion here it's :
 | **Human Oversight** | ✅ Required for all | ❌ Optional or absent | ✅ Risk-adaptive, always available |
 | **Recovery Speed** | ⚠️ Manual, slow | ❌ Unpredictable | ✅ Automated, verified compensation |
 | **Best For** | Simple, repetitive tasks | Creative, exploratory tasks | Mission-critical, regulated automation |
+
 
